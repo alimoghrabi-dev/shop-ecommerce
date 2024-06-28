@@ -1,0 +1,16 @@
+export const QUERY_KEYS = {
+  USER: "get-user",
+  GET_USER_PRODUCTS: "get-user-products",
+  GET_PRODUCT: "get-product",
+  GET_PRODUCT_REVIEWS: "get-product-reviews",
+  GET_CART_PRODUCT: "get-cart-product",
+  GET_POPULAR_USERS: "get-popular-users",
+  GET_USER_REVIEWS: "get-user-reviews",
+  GET_HOME_SEARCH_RESULTS: "get-home-search-results",
+  GET_CART_TOTAL: "get-cart-total",
+  GET_MOST_RATED_PRODUCTS: "get-most-rated-products",
+  GET_ONSALE_PRODUCTS: "get-onsale-products",
+  GET_RECOMMENDED_PRODUCTS: "get-recommended-products",
+  GET_ADMIN_USERS: "get-admin-users",
+  GET_SITE_DETAILS: "get-site-details",
+};
