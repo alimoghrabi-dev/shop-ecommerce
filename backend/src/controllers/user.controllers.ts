@@ -141,6 +141,7 @@ export async function loginUser(req: Request, res: Response) {
       expires: expirationTime,
       httpOnly: true,
       signed: true,
+      secure: true,
     });
 
     return res.status(200).json({ message: "Login successful", token });

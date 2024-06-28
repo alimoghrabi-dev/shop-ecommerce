@@ -92,7 +92,7 @@ export async function loginUser(req, res) {
             return res.status(401).json({ message: "Password is invalid" });
         }
         res.clearCookie(COOKIE_NAME, {
-            domain: "localhost",
+            domain: "shop-ecommerce-aiz1.onrender.com",
             httpOnly: true,
             signed: true,
             path: "/",
@@ -102,10 +102,11 @@ export async function loginUser(req, res) {
         const expirationTime = new Date(now.getTime() + 7 * 24 * 60 * 60 * 1000);
         res.cookie(COOKIE_NAME, token, {
             path: "/",
-            domain: "localhost",
+            domain: "shop-ecommerce-aiz1.onrender.com",
             expires: expirationTime,
             httpOnly: true,
             signed: true,
+            secure: true,
         });
         return res.status(200).json({ message: "Login successful", token });
     }
@@ -139,7 +140,7 @@ export async function logoutUser(req, res) {
         }
         res.clearCookie(COOKIE_NAME, {
             httpOnly: true,
-            domain: "localhost",
+            domain: "shop-ecommerce-aiz1.onrender.com",
             signed: true,
             path: "/",
         });
