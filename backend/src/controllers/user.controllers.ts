@@ -123,7 +123,7 @@ export async function loginUser(req: Request, res: Response) {
     }
 
     res.clearCookie(COOKIE_NAME, {
-      domain: "localhost",
+      domain: "https://shop-ecommerce-aiz1.onrender.com",
       httpOnly: true,
       signed: true,
       path: "/",
@@ -137,7 +137,7 @@ export async function loginUser(req: Request, res: Response) {
 
     res.cookie(COOKIE_NAME, token, {
       path: "/",
-      domain: "localhost",
+      domain: "https://shop-ecommerce-aiz1.onrender.com",
       expires: expirationTime,
       httpOnly: true,
       signed: true,
@@ -181,7 +181,7 @@ export async function logoutUser(req: Request, res: Response) {
 
     res.clearCookie(COOKIE_NAME, {
       httpOnly: true,
-      domain: "localhost",
+      domain: "https://shop-ecommerce-aiz1.onrender.com",
       signed: true,
       path: "/",
     });
