@@ -11,7 +11,6 @@ import {
   loginUser,
   logoutUser,
   signupUser,
-  testFn,
   unfollowUser,
   verifyUser,
   verifyUserIfAdmin,
@@ -44,7 +43,5 @@ userRoutes.get(
   verifyUserIfAdmin,
   getSiteDetails
 );
-
-userRoutes.get("/test", testFn);
 
 export default userRoutes;

@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { checkIfUserExists, editUser, followUser, getAllUsers, getPopularUsers, getSearchResults, getSiteDetails, getUserById, loginUser, logoutUser, signupUser, testFn, unfollowUser, verifyUser, verifyUserIfAdmin, } from "../controllers/user.controllers.js";
+import { checkIfUserExists, editUser, followUser, getAllUsers, getPopularUsers, getSearchResults, getSiteDetails, getUserById, loginUser, logoutUser, signupUser, unfollowUser, verifyUser, verifyUserIfAdmin, } from "../controllers/user.controllers.js";
 import { verifyToken } from "../utils/token.js";
 import { LoginValidator, SignUpValidator, validate, } from "../utils/validators.js";
 const userRoutes = Router();
@@ -16,6 +16,5 @@ userRoutes.post("/get-popular-users", getPopularUsers);
 userRoutes.post("/get-search-results", getSearchResults);
 userRoutes.get("/get-all-users", verifyToken, verifyUserIfAdmin, getAllUsers);
 userRoutes.get("/get-site-details", verifyToken, verifyUserIfAdmin, getSiteDetails);
-userRoutes.get("/test", testFn);
 export default userRoutes;
 //# sourceMappingURL=user.routes.js.map

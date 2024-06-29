@@ -6,22 +6,6 @@ import { COOKIE_NAME } from "../utils/constants.js";
 import jwt from "jsonwebtoken";
 import Product from "../models/product.model.js";
 
-export async function testFn(req: Request, res: Response) {
-  try {
-    const token = req.headers.cookie?.split("=")[1];
-    const decodedToken = jwt.verify(token!, process.env.JWT_SECRET!);
-
-    return res.status(201).json({
-      message: "OK",
-      data: {
-        decodedToken,
-      },
-    });
-  } catch (error) {
-    return res.status(500).json({ message: "ERROR", cause: error });
-  }
-}
-
 export async function verifyUser(req: Request, res: Response) {
   try {
     const { token } = req.body;
@@ -149,16 +133,8 @@ export async function loginUser(req: Request, res: Response) {
 
     const expirationTime = new Date(now.getTime() + 7 * 24 * 60 * 60 * 1000);
 
-    res.set(
-      "Set-Cookie",
-      `token=${token}; Path=/; Expires=${expirationTime}; SameSite=None; Secure`
-    );
-
     res.cookie(COOKIE_NAME, token, {
       expires: expirationTime,
-      httpOnly: true,
-      secure: true,
-      sameSite: "none",
     });
 
     return res.status(200).json({ message: "Login successful", token });
