@@ -137,7 +137,7 @@ export async function loginUser(req: Request, res: Response) {
 
     res.cookie(COOKIE_NAME, token, {
       path: "/",
-      domain: "shop-ecommerce-xi.vercel.app",
+      domain: ".shop-ecommerce-xi.vercel.app",
       expires: expirationTime,
       httpOnly: true,
       signed: true,
