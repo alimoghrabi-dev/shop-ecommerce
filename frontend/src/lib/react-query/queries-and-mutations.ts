@@ -64,6 +64,7 @@ export const useCheckAuthStatusQuery = (token: string) => {
   return useQuery({
     queryKey: [QUERY_KEYS.USER],
     queryFn: () => checkAuthStatus(token),
+    retry: false,
   });
 };
 
