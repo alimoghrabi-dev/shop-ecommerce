@@ -123,10 +123,10 @@ export async function loginUser(req: Request, res: Response) {
     }
 
     res.clearCookie(COOKIE_NAME, {
-      domain: "shop-ecommerce-xi.vercel.app",
       httpOnly: true,
       signed: true,
       path: "/",
+      sameSite: "none",
     });
 
     const token = createToken(user._id.toString(), user.email, "7d");
@@ -137,11 +137,11 @@ export async function loginUser(req: Request, res: Response) {
 
     res.cookie(COOKIE_NAME, token, {
       path: "/",
-      domain: ".shop-ecommerce-xi.vercel.app",
       expires: expirationTime,
       httpOnly: true,
       signed: true,
       secure: true,
+      sameSite: "none",
     });
 
     return res.status(200).json({ message: "Login successful", token });
