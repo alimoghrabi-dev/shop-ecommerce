@@ -137,7 +137,7 @@ export async function loginUser(req: Request, res: Response) {
       expires: expirationTime,
       httpOnly: true,
       signed: true,
-      sameSite: "none",
+      sameSite: "strict",
       secure: true,
       path: "/",
       domain: ".shop-ecommerce-xi.vercel.app",
