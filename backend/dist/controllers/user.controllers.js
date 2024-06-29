@@ -101,6 +101,12 @@ export async function loginUser(req, res) {
         const expirationTime = new Date(now.getTime() + 7 * 24 * 60 * 60 * 1000);
         res.cookie(COOKIE_NAME, token, {
             expires: expirationTime,
+            httpOnly: true,
+            signed: true,
+            sameSite: "none",
+            secure: true,
+            path: "/",
+            domain: ".shop-ecommerce-xi.vercel.app",
         });
         return res.status(200).json({ message: "Login successful", token });
     }
