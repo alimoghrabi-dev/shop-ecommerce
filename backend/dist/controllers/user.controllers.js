@@ -101,11 +101,7 @@ export async function loginUser(req, res) {
         const now = new Date();
         const expirationTime = new Date(now.getTime() + 7 * 24 * 60 * 60 * 1000);
         res.cookie(COOKIE_NAME, token, {
-            path: "/",
             expires: expirationTime,
-            httpOnly: true,
-            signed: true,
-            secure: true,
             sameSite: "none",
         });
         return res.status(200).json({ message: "Login successful", token });

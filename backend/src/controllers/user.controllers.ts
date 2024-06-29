@@ -136,11 +136,7 @@ export async function loginUser(req: Request, res: Response) {
     const expirationTime = new Date(now.getTime() + 7 * 24 * 60 * 60 * 1000);
 
     res.cookie(COOKIE_NAME, token, {
-      path: "/",
       expires: expirationTime,
-      httpOnly: true,
-      signed: true,
-      secure: true,
       sameSite: "none",
     });
 
