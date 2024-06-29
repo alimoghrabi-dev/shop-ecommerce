@@ -123,7 +123,7 @@ export async function loginUser(req: Request, res: Response) {
     }
 
     res.clearCookie(COOKIE_NAME, {
-      domain: "shop-ecommerce-aiz1.onrender.com",
+      domain: "shop-ecommerce-xi.vercel.app",
       httpOnly: true,
       signed: true,
       path: "/",
@@ -137,7 +137,7 @@ export async function loginUser(req: Request, res: Response) {
 
     res.cookie(COOKIE_NAME, token, {
       path: "/",
-      domain: "shop-ecommerce-aiz1.onrender.com",
+      domain: "shop-ecommerce-xi.vercel.app",
       expires: expirationTime,
       httpOnly: true,
       signed: true,
@@ -182,7 +182,7 @@ export async function logoutUser(req: Request, res: Response) {
 
     res.clearCookie(COOKIE_NAME, {
       httpOnly: true,
-      domain: "shop-ecommerce-aiz1.onrender.com",
+      domain: "shop-ecommerce-xi.vercel.app",
       signed: true,
       path: "/",
     });

@@ -92,7 +92,7 @@ export async function loginUser(req, res) {
             return res.status(401).json({ message: "Password is invalid" });
         }
         res.clearCookie(COOKIE_NAME, {
-            domain: "shop-ecommerce-aiz1.onrender.com",
+            domain: "shop-ecommerce-xi.vercel.app",
             httpOnly: true,
             signed: true,
             path: "/",
@@ -102,7 +102,7 @@ export async function loginUser(req, res) {
         const expirationTime = new Date(now.getTime() + 7 * 24 * 60 * 60 * 1000);
         res.cookie(COOKIE_NAME, token, {
             path: "/",
-            domain: "shop-ecommerce-aiz1.onrender.com",
+            domain: "shop-ecommerce-xi.vercel.app",
             expires: expirationTime,
             httpOnly: true,
             signed: true,
@@ -140,7 +140,7 @@ export async function logoutUser(req, res) {
         }
         res.clearCookie(COOKIE_NAME, {
             httpOnly: true,
-            domain: "shop-ecommerce-aiz1.onrender.com",
+            domain: "shop-ecommerce-xi.vercel.app",
             signed: true,
             path: "/",
         });
