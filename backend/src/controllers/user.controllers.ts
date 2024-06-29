@@ -4,8 +4,23 @@ import bcrypt from "bcrypt";
 import { createToken } from "../utils/token.js";
 import { COOKIE_NAME } from "../utils/constants.js";
 import jwt from "jsonwebtoken";
-import Review from "../models/review.model.js";
 import Product from "../models/product.model.js";
+
+export async function testFn(req: Request, res: Response) {
+  try {
+    const token = req.headers.cookie?.split("=")[1];
+    const decodedToken = jwt.verify(token!, process.env.JWT_SECRET!);
+
+    return res.status(201).json({
+      message: "OK",
+      data: {
+        decodedToken,
+      },
+    });
+  } catch (error) {
+    return res.status(500).json({ message: "ERROR", cause: error });
+  }
+}
 
 export async function verifyUser(req: Request, res: Response) {
   try {
@@ -133,6 +148,11 @@ export async function loginUser(req: Request, res: Response) {
     const now = new Date();
 
     const expirationTime = new Date(now.getTime() + 7 * 24 * 60 * 60 * 1000);
+
+    res.set(
+      "Set-Cookie",
+      `token=${token}; Path=/; Expires=${expirationTime}; SameSite=None; Secure`
+    );
 
     res.cookie(COOKIE_NAME, token, {
       expires: expirationTime,
