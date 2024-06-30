@@ -1,5 +1,4 @@
 import jwt from "jsonwebtoken";
-import { COOKIE_NAME } from "./constants.js";
 export const createToken = (id, email, expiresIn) => {
     const payload = { id, email };
     const token = jwt.sign(payload, process.env.JWT_SECRET, {
@@ -9,7 +8,7 @@ export const createToken = (id, email, expiresIn) => {
 };
 export const verifyToken = async (req, res, next) => {
     try {
-        const token = req.signedCookies[`${COOKIE_NAME}`];
+        const { token } = req.body;
         if (!token || token.trim() === "") {
             return res.status(401).send("Unauthorized");
         }

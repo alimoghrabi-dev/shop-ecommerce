@@ -36,8 +36,8 @@ userRoutes.put("/edit-user-info", verifyToken, editUser);
 userRoutes.post("/get-popular-users", getPopularUsers);
 userRoutes.post("/get-search-results", getSearchResults);
 
-userRoutes.get("/get-all-users", verifyToken, verifyUserIfAdmin, getAllUsers);
-userRoutes.get(
+userRoutes.post("/get-all-users", verifyToken, verifyUserIfAdmin, getAllUsers);
+userRoutes.post(
   "/get-site-details",
   verifyToken,
   verifyUserIfAdmin,

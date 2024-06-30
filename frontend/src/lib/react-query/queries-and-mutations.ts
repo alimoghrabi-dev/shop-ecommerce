@@ -33,6 +33,7 @@ import {
 } from "../actions/app.actions";
 import { CreateProduct, EditUser, RegisteredUser } from "@/types";
 import { QUERY_KEYS } from "./query-keys";
+import { useAuth } from "@/context/AuthContext";
 
 export const useCheckIfUserExistsMutation = () => {
   const queryClient = useQueryClient();
@@ -54,9 +55,11 @@ export const useSignUpUserMutation = () => {
 };
 
 export const useGetUserByIdQuery = (userId: string | undefined) => {
+  const auth = useAuth();
+
   return useQuery({
     queryKey: [QUERY_KEYS.USER, userId],
-    queryFn: () => getUserById(userId),
+    queryFn: () => getUserById(userId, auth?.token),
   });
 };
 
@@ -69,6 +72,8 @@ export const useCheckAuthStatusQuery = (token: string) => {
 };
 
 export const useFollowUserMutation = () => {
+  const auth = useAuth();
+
   return useMutation({
     mutationFn: ({
       userId,
@@ -76,11 +81,13 @@ export const useFollowUserMutation = () => {
     }: {
       userId: string | undefined;
       follwingUserId: string | undefined;
-    }) => followUser(userId, follwingUserId),
+    }) => followUser(userId, follwingUserId, auth?.token),
   });
 };
 
 export const useUnFollowUserMutation = () => {
+  const auth = useAuth();
+
   return useMutation({
     mutationFn: ({
       userId,
@@ -88,15 +95,16 @@ export const useUnFollowUserMutation = () => {
     }: {
       userId: string | undefined;
       follwingUserId: string | undefined;
-    }) => unfollowUser(userId, follwingUserId),
+    }) => unfollowUser(userId, follwingUserId, auth?.token),
   });
 };
 
 export const useEditUserInfoMutation = () => {
   const queryClient = useQueryClient();
+  const auth = useAuth();
 
   return useMutation({
-    mutationFn: (data: EditUser) => editUser(data),
+    mutationFn: (data: EditUser) => editUser(data, auth?.token),
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: [QUERY_KEYS.USER],
@@ -107,9 +115,10 @@ export const useEditUserInfoMutation = () => {
 
 export const useCreateProductMutation = () => {
   const queryClient = useQueryClient();
+  const auth = useAuth();
 
   return useMutation({
-    mutationFn: (values: CreateProduct) => createProduct(values),
+    mutationFn: (values: CreateProduct) => createProduct(values, auth?.token),
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: [QUERY_KEYS.GET_USER_PRODUCTS],
@@ -325,9 +334,11 @@ export const useGetRecommendedProductsQuery = (productId: string) => {
 };
 
 export const useGetAdminAllUsersQuery = () => {
+  const auth = useAuth();
+
   return useQuery({
     queryKey: [QUERY_KEYS.GET_ADMIN_USERS],
-    queryFn: () => getAdminAllUsers(),
+    queryFn: () => getAdminAllUsers(auth?.token),
   });
 };
 
@@ -374,8 +385,10 @@ export const useAdminEditProductPriceMutation = () => {
 };
 
 export const useGetAdminSiteDetailsQuery = () => {
+  const auth = useAuth();
+
   return useQuery({
     queryKey: [QUERY_KEYS.GET_SITE_DETAILS],
-    queryFn: () => adminGetSiteDetails(),
+    queryFn: () => adminGetSiteDetails(auth?.token),
   });
 };

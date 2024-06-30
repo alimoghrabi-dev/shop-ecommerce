@@ -14,7 +14,7 @@ userRoutes.put("/unfollow-user", verifyToken, unfollowUser);
 userRoutes.put("/edit-user-info", verifyToken, editUser);
 userRoutes.post("/get-popular-users", getPopularUsers);
 userRoutes.post("/get-search-results", getSearchResults);
-userRoutes.get("/get-all-users", verifyToken, verifyUserIfAdmin, getAllUsers);
-userRoutes.get("/get-site-details", verifyToken, verifyUserIfAdmin, getSiteDetails);
+userRoutes.post("/get-all-users", verifyToken, verifyUserIfAdmin, getAllUsers);
+userRoutes.post("/get-site-details", verifyToken, verifyUserIfAdmin, getSiteDetails);
 export default userRoutes;
 //# sourceMappingURL=user.routes.js.map

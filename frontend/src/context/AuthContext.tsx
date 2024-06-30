@@ -7,6 +7,7 @@ type UserAuth = {
   user: User | null;
   isLoading: boolean;
   isPending: boolean;
+  token: string | null | undefined;
 };
 
 const AuthContext = createContext<UserAuth | null>(null);
@@ -54,6 +55,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     user,
     isLoading,
     isPending,
+    token,
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

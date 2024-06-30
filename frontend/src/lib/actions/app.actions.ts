@@ -52,10 +52,14 @@ export async function checkAuthStatus(token: string) {
   }
 }
 
-export async function getUserById(userId: string | undefined) {
+export async function getUserById(
+  userId: string | undefined,
+  token: string | null | undefined
+) {
   try {
     const response = await axios.post("/user/get-user", {
       userId,
+      token,
     });
 
     return response.data;
@@ -66,12 +70,14 @@ export async function getUserById(userId: string | undefined) {
 
 export async function followUser(
   userId: string | undefined,
-  followingUserId: string | undefined
+  followingUserId: string | undefined,
+  token: string | null | undefined
 ) {
   try {
     const response = await axios.put("/user/follow-user", {
       currentUserId: userId,
       followingUserId: followingUserId,
+      token,
     });
 
     return response.data;
@@ -82,12 +88,14 @@ export async function followUser(
 
 export async function unfollowUser(
   userId: string | undefined,
-  followingUserId: string | undefined
+  followingUserId: string | undefined,
+  token: string | null | undefined
 ) {
   try {
     const response = await axios.put("/user/unfollow-user", {
       currentUserId: userId,
       followingUserId: followingUserId,
+      token,
     });
 
     return response.data;
@@ -96,7 +104,10 @@ export async function unfollowUser(
   }
 }
 
-export async function editUser(params: EditUser) {
+export async function editUser(
+  params: EditUser,
+  token: string | null | undefined
+) {
   try {
     const {
       userId,
@@ -118,6 +129,7 @@ export async function editUser(params: EditUser) {
       bio,
       profilePic,
       coverPic,
+      token,
     });
 
     return response.data;
@@ -126,7 +138,10 @@ export async function editUser(params: EditUser) {
   }
 }
 
-export async function createProduct(params: CreateProduct) {
+export async function createProduct(
+  params: CreateProduct,
+  token: string | null | undefined
+) {
   try {
     const { name, userId, description, price, images } = params;
 
@@ -136,6 +151,7 @@ export async function createProduct(params: CreateProduct) {
       description,
       price,
       images,
+      token,
     });
 
     if (response.status === 400) {
@@ -153,7 +169,6 @@ export async function getUserProducts(
   search?: string | null
 ) {
   try {
-    console.log(category, onSale);
     const response = await axios.post("/product/get-products", {
       userId,
       category,
@@ -465,9 +480,11 @@ export async function getRecommendedProducts(productId: string) {
   }
 }
 
-export async function getAdminAllUsers() {
+export async function getAdminAllUsers(token: string | null | undefined) {
   try {
-    const response = await axios.get("/user/get-all-users");
+    const response = await axios.post("/user/get-all-users", {
+      token,
+    });
 
     if (response.status === 404) {
       throw new Error("Failed to fetch users");
@@ -538,9 +555,11 @@ export async function adminEditProductPrice(params: {
   }
 }
 
-export async function adminGetSiteDetails() {
+export async function adminGetSiteDetails(token: string | null | undefined) {
   try {
-    const response = await axios.get("/user/get-site-details");
+    const response = await axios.post("/user/get-site-details", {
+      token,
+    });
 
     return response.data;
   } catch (error) {
