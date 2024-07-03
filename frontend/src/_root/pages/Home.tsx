@@ -23,7 +23,7 @@ const Home = () => {
   }, [textMapped.length]);
 
   return (
-    <section className="w-full flex flex-col relative gap-y-12 pb-12">
+    <section className="w-full flex flex-col relative gap-y-12 pb-12 overflow-x-hidden">
       <div className="md:absolute z-10 top-[10%] left-[34.8%] flex items-center flex-col justify-center gap-y-9 pt-8 md:pt-0">
         <svg
           width="101"

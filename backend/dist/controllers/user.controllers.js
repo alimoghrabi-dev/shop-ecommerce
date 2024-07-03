@@ -1,12 +1,11 @@
 import User from "../models/user.model.js";
 import bcrypt from "bcrypt";
 import { createToken } from "../utils/token.js";
-import { COOKIE_NAME } from "../utils/constants.js";
 import jwt from "jsonwebtoken";
 import Product from "../models/product.model.js";
 export async function verifyUser(req, res) {
     try {
-        const { token } = req.body;
+        const token = req.headers.authorization?.split(" ")[1];
         if (!token) {
             return res.status(401).send("Unauthorized: Token missing");
         }
@@ -91,14 +90,7 @@ export async function loginUser(req, res) {
         if (!isPasswordValid) {
             return res.status(401).json({ message: "Password is invalid" });
         }
-        res.clearCookie(COOKIE_NAME, {
-            httpOnly: true,
-            signed: true,
-            sameSite: "none",
-        });
         const token = createToken(user._id.toString(), user.email, "7d");
-        const now = new Date();
-        const expirationTime = new Date(now.getTime() + 7 * 24 * 60 * 60 * 1000);
         return res.status(200).json({ message: "Login successful", token });
     }
     catch (error) {
@@ -114,27 +106,6 @@ export async function checkIfUserExists(req, res) {
             return res.status(404).json({ message: "User not found" });
         }
         return res.status(200).json({ message: "User Exists" });
-    }
-    catch (error) {
-        console.log(error);
-        return res.status(500).json({ message: "Internal server error" });
-    }
-}
-export async function logoutUser(req, res) {
-    try {
-        const user = await User.findById(res.locals.jwtData.id);
-        if (!user) {
-            return res.status(401).send("User not found");
-        }
-        if (user._id.toString() !== res.locals.jwtData.id) {
-            return res.status(401).send("Permission denied");
-        }
-        res.clearCookie(COOKIE_NAME, {
-            httpOnly: true,
-            signed: true,
-            sameSite: "none",
-        });
-        return res.status(200).json({ message: "OK" });
     }
     catch (error) {
         console.log(error);

@@ -55,18 +55,20 @@ export const useSignUpUserMutation = () => {
 };
 
 export const useGetUserByIdQuery = (userId: string | undefined) => {
-  const auth = useAuth();
-
   return useQuery({
     queryKey: [QUERY_KEYS.USER, userId],
-    queryFn: () => getUserById(userId, auth?.token),
+    queryFn: () => getUserById(userId),
   });
 };
 
-export const useCheckAuthStatusQuery = (token: string) => {
+export const useCheckAuthStatusQuery = (token: string | null | undefined) => {
   return useQuery({
     queryKey: [QUERY_KEYS.USER],
-    queryFn: () => checkAuthStatus(token),
+    queryFn: () => {
+      if (token) {
+        return checkAuthStatus(token);
+      }
+    },
     retry: false,
   });
 };
@@ -344,10 +346,11 @@ export const useGetAdminAllUsersQuery = () => {
 
 export const useAdminEditProductNameMutation = () => {
   const queryClient = useQueryClient();
+  const auth = useAuth();
 
   return useMutation({
     mutationFn: (params: { productId: string; name: string }) =>
-      adminEditProductName(params),
+      adminEditProductName(params, auth?.token),
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: [QUERY_KEYS.GET_PRODUCT],
@@ -358,10 +361,11 @@ export const useAdminEditProductNameMutation = () => {
 
 export const useAdminEditProductDescriptionMutation = () => {
   const queryClient = useQueryClient();
+  const auth = useAuth();
 
   return useMutation({
     mutationFn: (params: { productId: string; description: string }) =>
-      adminEditProductDescription(params),
+      adminEditProductDescription(params, auth?.token),
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: [QUERY_KEYS.GET_PRODUCT],
@@ -372,10 +376,11 @@ export const useAdminEditProductDescriptionMutation = () => {
 
 export const useAdminEditProductPriceMutation = () => {
   const queryClient = useQueryClient();
+  const auth = useAuth();
 
   return useMutation({
     mutationFn: (params: { productId: string; price: number }) =>
-      adminEditProductPrice(params),
+      adminEditProductPrice(params, auth?.token),
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: [QUERY_KEYS.GET_PRODUCT],

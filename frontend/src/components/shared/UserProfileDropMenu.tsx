@@ -9,7 +9,6 @@ import {
 } from "../ui/dropdown-menu";
 import { Link, useLocation } from "react-router-dom";
 import { Loader2, LogOut } from "lucide-react";
-import { useLogoutMutation } from "@/slices/user-api-slice";
 import { useDispatch } from "react-redux";
 import { logout } from "@/slices/auth-slice";
 import { useEffect, useState } from "react";
@@ -38,6 +37,7 @@ const menuLinks = [
 
 const UserProfileDropMenu = ({ user }: UserProfileDropMenuProps) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [isLoggingOut, setIsLoggingOut] = useState<boolean>(false);
 
   const location = useLocation();
 
@@ -47,17 +47,15 @@ const UserProfileDropMenu = ({ user }: UserProfileDropMenuProps) => {
 
   const dispatch = useDispatch();
 
-  const [logOutApiCall, { isLoading: isLoggingOut }] = useLogoutMutation();
-
   const handleLogout = async () => {
-    try {
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      //@ts-ignore
-      await logOutApiCall().unwrap();
+    setIsLoggingOut(true);
 
+    try {
       dispatch(logout());
     } catch (error) {
       console.log(error);
+    } finally {
+      setIsLoggingOut(false);
     }
   };
 

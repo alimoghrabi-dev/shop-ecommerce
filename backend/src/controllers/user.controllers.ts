@@ -2,13 +2,12 @@ import { NextFunction, Request, Response } from "express";
 import User, { IUser } from "../models/user.model.js";
 import bcrypt from "bcrypt";
 import { createToken } from "../utils/token.js";
-import { COOKIE_NAME } from "../utils/constants.js";
 import jwt from "jsonwebtoken";
 import Product from "../models/product.model.js";
 
 export async function verifyUser(req: Request, res: Response) {
   try {
-    const { token } = req.body;
+    const token = req.headers.authorization?.split(" ")[1];
 
     if (!token) {
       return res.status(401).send("Unauthorized: Token missing");
@@ -23,7 +22,7 @@ export async function verifyUser(req: Request, res: Response) {
     //@ts-ignore
     const userId = decodedToken.id;
 
-    const user = await User.findById(userId);
+    const user: IUser | null = await User.findById(userId);
 
     if (!user) {
       return res.status(401).send("Unauthorized: User not found");
@@ -121,17 +120,7 @@ export async function loginUser(req: Request, res: Response) {
       return res.status(401).json({ message: "Password is invalid" });
     }
 
-    res.clearCookie(COOKIE_NAME, {
-      httpOnly: true,
-      signed: true,
-      sameSite: "none",
-    });
-
     const token = createToken(user._id.toString(), user.email, "7d");
-
-    const now = new Date();
-
-    const expirationTime = new Date(now.getTime() + 7 * 24 * 60 * 60 * 1000);
 
     return res.status(200).json({ message: "Login successful", token });
   } catch (error) {
@@ -151,31 +140,6 @@ export async function checkIfUserExists(req: Request, res: Response) {
     }
 
     return res.status(200).json({ message: "User Exists" });
-  } catch (error) {
-    console.log(error);
-    return res.status(500).json({ message: "Internal server error" });
-  }
-}
-
-export async function logoutUser(req: Request, res: Response) {
-  try {
-    const user = await User.findById(res.locals.jwtData.id);
-
-    if (!user) {
-      return res.status(401).send("User not found");
-    }
-
-    if (user._id.toString() !== res.locals.jwtData.id) {
-      return res.status(401).send("Permission denied");
-    }
-
-    res.clearCookie(COOKIE_NAME, {
-      httpOnly: true,
-      signed: true,
-      sameSite: "none",
-    });
-
-    return res.status(200).json({ message: "OK" });
   } catch (error) {
     console.log(error);
     return res.status(500).json({ message: "Internal server error" });

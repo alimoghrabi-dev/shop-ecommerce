@@ -15,11 +15,15 @@ const FetchStarsRate = ({
 
   if (decimalPart >= 0.85) {
     fractionalStar = (
-      <FaStar className={cn("text-gold", isCard ? "w-3 h-3" : "h-4 w-4")} />
+      <FaStar
+        key={`full`}
+        className={cn("text-gold", isCard ? "w-3 h-3" : "h-4 w-4")}
+      />
     );
   } else if (decimalPart >= 0.25 && decimalPart < 0.85) {
     fractionalStar = (
       <FaRegStarHalfStroke
+        key={`half`}
         className={cn("text-gold", isCard ? "w-3 h-3" : "h-4 w-4")}
       />
     );

@@ -15,7 +15,6 @@ import AdminHome from "./components/admin/AdminHome";
 import AdminStores from "./components/admin/AdminStores";
 import AdminEditProduct from "./components/admin/AdminEditProduct";
 import { useAuth } from "./context/AuthContext";
-import Loader from "./components/shared/Loader";
 
 const App = () => {
   const auth = useAuth();
@@ -30,35 +29,32 @@ const App = () => {
 
   return (
     <>
-      {auth?.isLoading || auth?.isPending ? (
-        <span className="w-full flex items-center justify-center mt-24">
-          <Loader />
-        </span>
-      ) : (
-        <Routes>
-          <Route element={<RootLayout />}>
-            <Route index path="/" element={<Home />} />
-            <Route path="/profile/:id" element={<Profile />} />
-            <Route path="/product/:id" element={<Product />} />
-            <Route path="/cart" element={<CartPage />} />
-            <Route path="/favorites" element={<Favorites />} />
-          </Route>
-          <Route path="/profile/edit/:id" element={<EditProfile />} />
-          <Route path="/profile/store/:id" element={<EditUserStore />} />
-          <Route element={<AdminLayout />}>
-            <Route path="/dashboard/admin" element={<AdminHome />} />
-            <Route path="/dashboard/admin/stores" element={<AdminStores />} />
-            <Route
-              path="/dashboard/admin/stores/edit/product/:productId"
-              element={<AdminEditProduct />}
-            />
-          </Route>
-        </Routes>
-      )}
       <Routes>
-        <Route path="/sign-in" element={<SignIn />} />
-        <Route path="/sign-up" element={<SignUp />} />
+        <Route element={<RootLayout />}>
+          <Route index path="/" element={<Home />} />
+          <Route path="/profile/:id" element={<Profile />} />
+          <Route path="/product/:id" element={<Product />} />
+          <Route path="/cart" element={<CartPage />} />
+          <Route path="/favorites" element={<Favorites />} />
+        </Route>
+        <Route path="/profile/edit/:id" element={<EditProfile />} />
+        <Route path="/profile/store/:id" element={<EditUserStore />} />
+        <Route element={<AdminLayout />}>
+          <Route path="/dashboard/admin" element={<AdminHome />} />
+          <Route path="/dashboard/admin/stores" element={<AdminStores />} />
+          <Route
+            path="/dashboard/admin/stores/edit/product/:productId"
+            element={<AdminEditProduct />}
+          />
+        </Route>
       </Routes>
+
+      {!auth?.token || !auth?.user ? (
+        <Routes>
+          <Route path="/sign-in" element={<SignIn />} />
+          <Route path="/sign-up" element={<SignUp />} />
+        </Routes>
+      ) : null}
     </>
   );
 };

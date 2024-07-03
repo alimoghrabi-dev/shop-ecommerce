@@ -1,28 +1,22 @@
 import {
   rowOneImage1,
   rowOneImage2,
-  rowOneImage3,
   rowOneImage4,
   rowOneImage5,
   rowOneImage6,
-  rowOneImage7,
-  rowOneImage8,
+  rowOneImage3,
   rowTwoImage1,
   rowTwoImage2,
   rowTwoImage3,
   rowTwoImage4,
   rowTwoImage5,
   rowTwoImage6,
-  rowTwoImage7,
-  rowTwoImage8,
   rowThreeImage1,
   rowThreeImage2,
   rowThreeImage3,
   rowThreeImage4,
   rowThreeImage5,
   rowThreeImage6,
-  rowThreeImage7,
-  rowThreeImage8,
 } from "@/assets/hero";
 import { cn } from "@/lib/utils";
 
@@ -30,11 +24,9 @@ const rowOne = [
   rowOneImage4,
   rowOneImage5,
   rowOneImage6,
-  rowOneImage7,
+  rowOneImage3,
   rowOneImage1,
   rowOneImage2,
-  rowOneImage3,
-  rowOneImage8,
 ];
 
 const rowTwo = [
@@ -44,8 +36,6 @@ const rowTwo = [
   rowTwoImage4,
   rowTwoImage5,
   rowTwoImage6,
-  rowTwoImage7,
-  rowTwoImage8,
 ];
 const rowThree = [
   rowThreeImage1,
@@ -54,13 +44,11 @@ const rowThree = [
   rowThreeImage4,
   rowThreeImage5,
   rowThreeImage6,
-  rowThreeImage7,
-  rowThreeImage8,
 ];
 
 const HeroSection = () => {
   return (
-    <div className="w-[100vw] flex flex-col gap-y-3 px-3 overflow-hidden">
+    <div className="w-[100vw] flex flex-col gap-y-3 px-3">
       <div className="w-full flex items-center gap-x-2.5">
         {rowOne.map((image, index) => (
           <img

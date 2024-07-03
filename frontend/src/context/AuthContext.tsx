@@ -5,7 +5,6 @@ import { useSelector } from "react-redux";
 
 type UserAuth = {
   user: User | null;
-  isLoading: boolean;
   isPending: boolean;
   token: string | null | undefined;
 };
@@ -26,7 +25,6 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const {
     data,
     isPending,
-    isLoading,
     refetch: statusRefetch,
   } = useCheckAuthStatusQuery(token);
 
@@ -45,7 +43,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     }
 
     checkStatus();
-  }, [data]);
+  }, [data, token]);
 
   useEffect(() => {
     statusRefetch();
@@ -53,7 +51,6 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
   const value = {
     user,
-    isLoading,
     isPending,
     token,
   };

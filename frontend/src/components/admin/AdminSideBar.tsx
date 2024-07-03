@@ -2,7 +2,6 @@ import { useAuth } from "@/context/AuthContext";
 import { useGetUserByIdQuery } from "@/lib/react-query/queries-and-mutations";
 import { cn, getInitials } from "@/lib/utils";
 import { logout } from "@/slices/auth-slice";
-import { useLogoutMutation } from "@/slices/user-api-slice";
 import {
   AlignEndHorizontal,
   ArrowLeft,
@@ -11,6 +10,7 @@ import {
   LogOut,
   Store,
 } from "lucide-react";
+import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { Link, useLocation } from "react-router-dom";
 
@@ -37,21 +37,20 @@ const AdminSideBar = () => {
 
   const location = useLocation();
 
+  const [isLoggingOut, setIsLoggingOut] = useState<boolean>(false);
+
   const dispatch = useDispatch();
 
   const { data: user } = useGetUserByIdQuery(auth?.user?.id);
 
-  const [logOutApiCall, { isLoading: isLoggingOut }] = useLogoutMutation();
-
   const handleLogout = async () => {
+    setIsLoggingOut(true);
     try {
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      //@ts-ignore
-      await logOutApiCall().unwrap();
-
       dispatch(logout());
     } catch (error) {
       console.log(error);
+    } finally {
+      setIsLoggingOut(false);
     }
   };
 

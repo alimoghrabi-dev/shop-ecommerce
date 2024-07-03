@@ -1,5 +1,6 @@
 import { NextFunction, Response, Request } from "express";
 import jwt from "jsonwebtoken";
+import User from "../models/user.model.js";
 
 export const createToken = (id: string, email: string, expiresIn: string) => {
   const payload = { id, email };
@@ -16,29 +17,34 @@ export const verifyToken = async (
   next: NextFunction
 ) => {
   try {
-    const { token } = req.body;
+    const token = req.headers.authorization?.split(" ")[1];
 
-    if (!token || token.trim() === "") {
+    if (!token) {
       return res.status(401).send("Unauthorized");
     }
 
-    return new Promise<void>((resolve, reject) => {
-      return jwt.verify(
-        token,
-        process.env.JWT_SECRET!,
-        (_error: any, success: any) => {
-          if (_error) {
-            reject(_error.message);
-            return res.status(401).send("Unauthorized");
-          } else {
-            console.log("token verified");
-            resolve();
-            res.locals.jwtData = success;
-            return next();
-          }
-        }
-      );
-    });
+    const decodedToken = jwt.verify(token, process.env.JWT_SECRET!);
+
+    if (!decodedToken) {
+      return res.status(401).send("Unauthorized: Invalid token");
+    }
+
+    //@ts-ignore
+    const userId = decodedToken.id;
+
+    const user = await User.findById(userId);
+
+    if (!user) {
+      return res.status(401).send("Unauthorized: User not found");
+    }
+
+    if (user._id.toString() !== userId) {
+      return res.status(401).send("Unauthorized: Permission denied");
+    }
+
+    res.locals.jwtData = decodedToken;
+
+    return next();
   } catch (error) {
     console.log(error);
   }

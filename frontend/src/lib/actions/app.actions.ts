@@ -40,10 +40,12 @@ export async function registerUser(data: RegisteredUser) {
   }
 }
 
-export async function checkAuthStatus(token: string) {
+export async function checkAuthStatus(token: string | null | undefined) {
   try {
-    const response = await axios.post("/user/auth-status", {
-      token,
+    const response = await axios.get("/user/auth-status", {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
     });
 
     return response.data;
@@ -52,14 +54,10 @@ export async function checkAuthStatus(token: string) {
   }
 }
 
-export async function getUserById(
-  userId: string | undefined,
-  token: string | null | undefined
-) {
+export async function getUserById(userId: string | undefined) {
   try {
     const response = await axios.post("/user/get-user", {
       userId,
-      token,
     });
 
     return response.data;
@@ -74,11 +72,18 @@ export async function followUser(
   token: string | null | undefined
 ) {
   try {
-    const response = await axios.put("/user/follow-user", {
-      currentUserId: userId,
-      followingUserId: followingUserId,
-      token,
-    });
+    const response = await axios.put(
+      "/user/follow-user",
+      {
+        currentUserId: userId,
+        followingUserId: followingUserId,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
 
     return response.data;
   } catch (error) {
@@ -92,11 +97,18 @@ export async function unfollowUser(
   token: string | null | undefined
 ) {
   try {
-    const response = await axios.put("/user/unfollow-user", {
-      currentUserId: userId,
-      followingUserId: followingUserId,
-      token,
-    });
+    const response = await axios.put(
+      "/user/unfollow-user",
+      {
+        currentUserId: userId,
+        followingUserId: followingUserId,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
 
     return response.data;
   } catch (error) {
@@ -120,17 +132,24 @@ export async function editUser(
       phoneNumber,
     } = params;
 
-    const response = await axios.put("/user/edit-user-info", {
-      userId,
-      name,
-      username,
-      websiteUrl,
-      phoneNumber,
-      bio,
-      profilePic,
-      coverPic,
-      token,
-    });
+    const response = await axios.put(
+      "/user/edit-user-info",
+      {
+        userId,
+        name,
+        username,
+        websiteUrl,
+        phoneNumber,
+        bio,
+        profilePic,
+        coverPic,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
 
     return response.data;
   } catch (error) {
@@ -482,8 +501,10 @@ export async function getRecommendedProducts(productId: string) {
 
 export async function getAdminAllUsers(token: string | null | undefined) {
   try {
-    const response = await axios.post("/user/get-all-users", {
-      token,
+    const response = await axios.get("/user/get-all-users", {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
     });
 
     if (response.status === 404) {
@@ -496,17 +517,28 @@ export async function getAdminAllUsers(token: string | null | undefined) {
   }
 }
 
-export async function adminEditProductName(params: {
-  productId: string;
-  name: string;
-}) {
+export async function adminEditProductName(
+  params: {
+    productId: string;
+    name: string;
+  },
+  token: string | null | undefined
+) {
   try {
     const { productId, name } = params;
 
-    const response = await axios.put("/product/admin-edit-name", {
-      productId,
-      name,
-    });
+    const response = await axios.put(
+      "/product/admin-edit-name",
+      {
+        productId,
+        name,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
 
     if (response.status === 404 || response.status === 400) {
       throw new Error("Failed to edit product name");
@@ -516,17 +548,28 @@ export async function adminEditProductName(params: {
   }
 }
 
-export async function adminEditProductDescription(params: {
-  productId: string;
-  description: string;
-}) {
+export async function adminEditProductDescription(
+  params: {
+    productId: string;
+    description: string;
+  },
+  token: string | null | undefined
+) {
   try {
     const { productId, description } = params;
 
-    const response = await axios.put("/product/admin-edit-description", {
-      productId,
-      description,
-    });
+    const response = await axios.put(
+      "/product/admin-edit-description",
+      {
+        productId,
+        description,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
 
     if (response.status === 404 || response.status === 400) {
       throw new Error("Failed to edit product description");
@@ -535,17 +578,28 @@ export async function adminEditProductDescription(params: {
     console.log(error);
   }
 }
-export async function adminEditProductPrice(params: {
-  productId: string;
-  price: number;
-}) {
+export async function adminEditProductPrice(
+  params: {
+    productId: string;
+    price: number;
+  },
+  token: string | null | undefined
+) {
   try {
     const { productId, price } = params;
 
-    const response = await axios.put("/product/admin-edit-price", {
-      productId,
-      price,
-    });
+    const response = await axios.put(
+      "/product/admin-edit-price",
+      {
+        productId,
+        price,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
 
     if (response.status === 404 || response.status === 400) {
       throw new Error("Failed to edit product price");
@@ -557,8 +611,10 @@ export async function adminEditProductPrice(params: {
 
 export async function adminGetSiteDetails(token: string | null | undefined) {
   try {
-    const response = await axios.post("/user/get-site-details", {
-      token,
+    const response = await axios.get("/user/get-site-details", {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
     });
 
     return response.data;
