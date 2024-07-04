@@ -12,7 +12,7 @@ import "react-toastify/dist/ReactToastify.css";
 import "./index.css";
 
 axios.defaults.baseURL =
-  import.meta.env.NODE_ENV === "production"
+  process.env.NODE_ENV === "production"
     ? "https://shop-ecommerce-aiz1.onrender.com/api"
     : "http://localhost:8080/api";
 axios.defaults.withCredentials = true;
