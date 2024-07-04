@@ -32,7 +32,7 @@ import {
 import { CircleOff, Ellipsis, Heart, Loader2, Star } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { Link, useLocation, useParams } from "react-router-dom";
+import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 
 const Product = () => {
@@ -43,6 +43,7 @@ const Product = () => {
   const auth = useAuth();
 
   const location = useLocation();
+  const navigate = useNavigate();
 
   const params = useParams();
 
@@ -116,7 +117,7 @@ const Product = () => {
 
   const handleCart = () => {
     if (!userInfo || !auth?.user) {
-      return toast.error("Please login first");
+      return navigate("/sign-in");
     }
 
     const cart = addRemoveItemFromCart({
@@ -141,7 +142,7 @@ const Product = () => {
 
   const handleToggleFavorite = () => {
     if (!userInfo || !auth?.user) {
-      return toast.error("Please login first");
+      return navigate("/sign-in");
     }
 
     const favorite = toggleFavorite({
@@ -165,6 +166,10 @@ const Product = () => {
   };
 
   const handleAddReview = async () => {
+    if (!auth?.token || !auth?.user) {
+      return navigate("/sign-in");
+    }
+
     if (!reviewContent || !rating) {
       return toast.error("Please fill all the fields");
     }
@@ -191,6 +196,10 @@ const Product = () => {
   const handleFollowUser = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
 
+    if (!auth?.token || !auth?.user) {
+      return navigate("/sign-in");
+    }
+
     const follow = await followUser({
       userId: auth?.user?.id,
       follwingUserId: product?.data?.userId,
@@ -208,6 +217,10 @@ const Product = () => {
 
   const handleUnFollowUser = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
+
+    if (!auth?.token || !auth?.user) {
+      return navigate("/sign-in");
+    }
 
     const unfollow = await unFollowUser({
       userId: auth?.user?.id,
@@ -273,9 +286,9 @@ const Product = () => {
               <p className="text-xl font-semibold text-gray-950">Reviews</p>
               <Dialog open={isOpen} onOpenChange={setIsOpen}>
                 <DialogTrigger>
-                  <button className="text-primary font-medium text-base hover:text-primary/85 transition-all">
+                  <p className="text-primary font-medium text-base hover:text-primary/85 transition-all">
                     Add Review
-                  </button>
+                  </p>
                 </DialogTrigger>
                 <DialogContent>
                   <DialogHeader>

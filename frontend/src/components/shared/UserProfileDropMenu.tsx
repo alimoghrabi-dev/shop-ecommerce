@@ -12,16 +12,10 @@ import { Loader2, LogOut } from "lucide-react";
 import { useDispatch } from "react-redux";
 import { logout } from "@/slices/auth-slice";
 import { useEffect, useState } from "react";
+import { User } from "@/types";
 
 interface UserProfileDropMenuProps {
-  user: {
-    _id: string;
-    name: string;
-    username?: string | undefined;
-    email: string;
-    isAdmin: boolean;
-    profilePic: string | undefined;
-  };
+  user: User | null | undefined;
 }
 
 const menuLinks = [
@@ -77,7 +71,7 @@ const UserProfileDropMenu = ({ user }: UserProfileDropMenuProps) => {
         </DropdownMenuTrigger>
       )}
 
-      <DropdownMenuContent className="mt-1 mr-4 px-2 shadow rounded-lg bg-white/90 backdrop-blur-sm flex items-center flex-col w-48">
+      <DropdownMenuContent className="mt-1 z-50 mr-4 px-2 shadow rounded-lg bg-white/90 backdrop-blur-sm flex items-center flex-col w-52">
         <DropdownMenuLabel className="text-base">
           {user?.name}
         </DropdownMenuLabel>
@@ -91,9 +85,9 @@ const UserProfileDropMenu = ({ user }: UserProfileDropMenuProps) => {
               <Link
                 to={
                   link.path === "/profile"
-                    ? `/profile/${user?._id}`
+                    ? `/profile/${user?.id}`
                     : link.path === "/settings"
-                    ? `/profile/edit/${user?._id}`
+                    ? `/profile/edit/${user?.id}`
                     : link.path
                 }
                 className="w-full flex justify-start"

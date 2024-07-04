@@ -40,6 +40,7 @@ export async function verifyUser(req: Request, res: Response) {
         username: user.username,
         email: user.email,
         isAdmin: user.isAdmin,
+        profilePic: user.profilePic,
       },
     });
   } catch (error) {

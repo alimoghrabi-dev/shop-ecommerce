@@ -60,7 +60,7 @@ const CartPage = () => {
   }
 
   return (
-    <section className="w-full flex flex-col gap-y-8 px-4 sm:px-12 md:px-20 lg:px-44 mt-16">
+    <section className="w-full flex flex-col gap-y-8 px-4 md:px-12 lg:px-20 mt-16">
       {user?.data?.cartItems.length === 0 ? (
         <span className="w-full flex flex-col items-center justify-center gap-y-2.5">
           <p className="text-xl font-semibold text-gray-950">

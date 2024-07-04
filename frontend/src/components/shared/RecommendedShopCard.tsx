@@ -1,5 +1,5 @@
 import { Loader2, Minus, Star } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Button } from "../ui/button";
 import {
   useFollowUserMutation,
@@ -25,6 +25,8 @@ const RecommendedShopCard = ({
 }: RecommendedShopCardProps) => {
   const auth = useAuth();
 
+  const navigate = useNavigate();
+
   const { data: user, refetch: refetchUser } = useGetUserByIdQuery(id);
   const { data: currentUser, refetch: refetchCurrentUser } =
     useGetUserByIdQuery(auth?.user?.id);
@@ -39,6 +41,10 @@ const RecommendedShopCard = ({
 
   const handleFollow = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
+
+    if (!auth?.token) {
+      return navigate("/sign-in");
+    }
 
     const follow = await followUser({
       userId: auth?.user?.id,
@@ -59,6 +65,10 @@ const RecommendedShopCard = ({
   const handleUnFollow = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
 
+    if (!auth?.token) {
+      return navigate("/sign-in");
+    }
+
     const unfollow = await unFollowUser({
       userId: auth?.user?.id,
       follwingUserId: id,
@@ -78,7 +88,8 @@ const RecommendedShopCard = ({
   return (
     <Link
       to={`/profile/${id}`}
-      className="w-full rounded-lg shadow hover:bg-secondary/50 flex flex-col transition-all">
+      className="w-full rounded-lg shadow hover:bg-secondary/50 flex flex-col transition-all"
+    >
       <div className="w-full h-28">
         {coverPic ? (
           <img
@@ -106,7 +117,7 @@ const RecommendedShopCard = ({
             <p className="italic font-medium text-sm text-neutral-500">
               no reviews
             </p>
-          ) : auth?.user ? (
+          ) : (
             <span className="flex items-center gap-x-1">
               <Star size={13} className="text-gray-950 fill-gray-950" />
               <p className="text-[13px] font-semibold text-gray-950">
@@ -116,7 +127,7 @@ const RecommendedShopCard = ({
                 ({formatNumber(user?.reviewsLength)})
               </p>
             </span>
-          ) : null}
+          )}
         </span>
         {user?.data?._id !== auth?.user?.id ? (
           isFollowed ? (
@@ -124,7 +135,8 @@ const RecommendedShopCard = ({
               onClick={handleUnFollow}
               disabled={isUnFollowing}
               size={"sm"}
-              className="w-full text-base font-semibold rounded-lg bg-secondary/70 hover:bg-secondary/50 text-gray-950">
+              className="w-full text-base font-semibold rounded-lg bg-secondary/70 hover:bg-secondary/50 text-gray-950"
+            >
               {isUnFollowing ? (
                 <Loader2 className="w-4 h-4 animate-spin" />
               ) : (
@@ -136,7 +148,8 @@ const RecommendedShopCard = ({
               onClick={handleFollow}
               disabled={isFollowing}
               size={"sm"}
-              className="w-full text-base font-semibold rounded-lg bg-gray-950 hover:bg-gray-950/80 text-white">
+              className="w-full text-base font-semibold rounded-lg bg-gray-950 hover:bg-gray-950/80 text-white"
+            >
               {isFollowing ? (
                 <Loader2 className="w-4 h-4 animate-spin" />
               ) : (

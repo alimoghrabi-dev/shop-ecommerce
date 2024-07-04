@@ -63,7 +63,7 @@ const UserReviews = ({ userId, currentUserId, username }: UserReviewsProps) => {
             <DialogTrigger className="text-primary font-semibold text-sm hover:opacity-85 transition">
               Add Review
             </DialogTrigger>
-            <DialogContent>
+            <DialogContent className="max-w-sm sm:max-w-lg md:max-w-xl rounded-lg">
               <DialogHeader className="text-lg font-semibold">
                 <DialogTitle className="flex items-center gap-x-1.5">
                   What is your opinion about
@@ -83,7 +83,8 @@ const UserReviews = ({ userId, currentUserId, username }: UserReviewsProps) => {
                 <Button
                   disabled={isAddingReview || emptyFields}
                   onClick={addUserReview}
-                  className="mt-2 font-semibold">
+                  className="mt-2 font-semibold"
+                >
                   {isAddingReview ? (
                     <Loader2 className="w-4 h-4 animate-spin" />
                   ) : (

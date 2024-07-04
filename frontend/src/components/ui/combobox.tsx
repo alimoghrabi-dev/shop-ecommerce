@@ -37,9 +37,10 @@ export default function Example() {
         onChange={(value) => {
           setSelected(value);
           updateSearchParams(value);
-        }}>
+        }}
+      >
         <div className="relative">
-          <div className="relative w-full cursor-default overflow-hidden rounded-md text-[13px] text-gray-950 font-semibold bg-white text-left border border-gray-950/25 focus:outline-none focus-visible:ring-2 focus-visible:ring-white/75 focus-visible:ring-offset-2 focus-visible:ring-offset-teal-300">
+          <div className="relative w-[150px] cursor-default overflow-hidden rounded-md text-[13px] text-gray-950 font-semibold bg-white text-left border border-gray-950/25 focus:outline-none focus-visible:ring-2 focus-visible:ring-white/75 focus-visible:ring-offset-2 focus-visible:ring-offset-teal-300">
             <Combobox.Input
               className="w-full border-none px-3 py-1 text-[13px] text-gray-900 focus:ring-0"
               displayValue={(person: { id: number; name: string }) =>
@@ -59,7 +60,8 @@ export default function Example() {
             leave="transition ease-in duration-100"
             leaveFrom="opacity-100"
             leaveTo="opacity-0"
-            afterLeave={() => setQuery("")}>
+            afterLeave={() => setQuery("")}
+          >
             <Combobox.Options className="absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black/5 focus:outline-none sm:text-sm">
               {filteredPeople.length === 0 && query !== "" ? (
                 <div className="relative cursor-default select-none px-4 py-2 text-gray-700">
@@ -74,20 +76,23 @@ export default function Example() {
                         active ? "bg-primary text-white" : "text-gray-900"
                       }`
                     }
-                    value={person}>
+                    value={person}
+                  >
                     {({ selected, active }) => (
                       <>
                         <span
                           className={`block truncate ${
                             selected ? "font-medium" : "font-normal"
-                          }`}>
+                          }`}
+                        >
                           {person.name}
                         </span>
                         {selected ? (
                           <span
                             className={`absolute inset-y-0 left-0 flex items-center pl-3 ${
                               active ? "text-white" : "text-primary"
-                            }`}>
+                            }`}
+                          >
                             <CheckIcon className="h-5 w-5" aria-hidden="true" />
                           </span>
                         ) : null}

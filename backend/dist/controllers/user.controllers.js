@@ -30,6 +30,7 @@ export async function verifyUser(req, res) {
                 username: user.username,
                 email: user.email,
                 isAdmin: user.isAdmin,
+                profilePic: user.profilePic,
             },
         });
     }

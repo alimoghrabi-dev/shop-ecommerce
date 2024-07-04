@@ -16,7 +16,10 @@ app.use(express.json());
 
 app.use(
   cors({
-    origin: "https://shop-ecommerce-xi.vercel.app",
+    origin:
+      process.env.NODE_ENV === "production"
+        ? "https://shop-ecommerce-xi.vercel.app"
+        : "http://localhost:5173",
     credentials: true,
   })
 );

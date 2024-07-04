@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import FetchStarsRate from "./FetchStarsRate";
 import { useGetUserByIdQuery } from "@/lib/react-query/queries-and-mutations";
 import { cn, formatPrice, getInitials } from "@/lib/utils";
@@ -26,6 +26,8 @@ const RecommendedProductCard = ({
   isOutOfStock,
   userOfProduct,
 }: RecommendedProductCardProps) => {
+  const navigate = useNavigate();
+
   const { data: user } = useGetUserByIdQuery(userOfProduct);
 
   return (
@@ -74,12 +76,16 @@ const RecommendedProductCard = ({
               {getInitials(user?.data?.name)}
             </div>
           )}
-          <Link
-            to={`/profile/${user?.data?._id}`}
+          <p
+            onClick={(e) => {
+              e.stopPropagation();
+              e.preventDefault();
+              navigate(`/profile/${user?.data?._id}`);
+            }}
             className="text-gray-950 font-semibold text-sm hover:opacity-80 transition"
           >
             {user?.data?.name}
-          </Link>
+          </p>
         </span>
         {isOutOfStock && (
           <p className="text-red-500 font-semibold text-sm line-through text-center">

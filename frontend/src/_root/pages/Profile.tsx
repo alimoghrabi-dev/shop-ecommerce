@@ -1,7 +1,7 @@
 import Loader from "@/components/shared/Loader";
 import UserProductsProfile from "@/components/shared/UserProductsProfile";
 import UserReviews from "@/components/shared/UserReviews";
-import { Button } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -14,19 +14,21 @@ import {
   useUnFollowUserMutation,
 } from "@/lib/react-query/queries-and-mutations";
 import {
+  cn,
   formatNumber,
   getFirstNumberAfterDecimal,
   getInitials,
 } from "@/lib/utils";
 import { Edit, Ellipsis, Loader2, ShieldAlert, Star } from "lucide-react";
 import { useEffect } from "react";
-import { Link, useLocation, useParams } from "react-router-dom";
+import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 
 const Profile = () => {
   const auth = useAuth();
 
   const location = useLocation();
+  const navigate = useNavigate();
 
   const params = useParams();
 
@@ -60,6 +62,10 @@ const Profile = () => {
   }
 
   const handleFollow = async () => {
+    if (!auth?.token) {
+      return navigate("/sign-in");
+    }
+
     const follow = await handleFollowMutate({
       userId: auth?.user?.id,
       follwingUserId: user?.data._id,
@@ -74,6 +80,10 @@ const Profile = () => {
   };
 
   const handleUnFollow = async () => {
+    if (!auth?.token) {
+      return navigate("/sign-in");
+    }
+
     const unfollow = await handleUnFollowMutate({
       userId: auth?.user?.id,
       follwingUserId: user?.data._id,
@@ -172,9 +182,16 @@ const Profile = () => {
           ) : null}
           <DropdownMenu>
             <DropdownMenuTrigger className="outline-none">
-              <Button variant={"outline"} className="px-2 rounded-xl">
+              <p
+                className={cn(
+                  buttonVariants({
+                    variant: "outline",
+                    className: "px-2 rounded-xl",
+                  })
+                )}
+              >
                 <Ellipsis className="text-gray-950" />
-              </Button>
+              </p>
             </DropdownMenuTrigger>
             <DropdownMenuContent className="rounded-xl py-2.5 px-0 w-48 mt-1 mr-2">
               {auth?.user?.id === params.id ? (

@@ -43,30 +43,34 @@ const CartItemCard = ({ item, loggedInUserId }: CartItemCardProps) => {
   }
 
   return (
-    <div className="w-full flex items-start justify-between">
-      <div className="flex gap-x-4 h-32">
-        <img
-          src={product?.data?.images[0]}
-          alt="image-of-product"
-          className="w-[120px] h-full rounded-lg object-cover object-center"
-        />
+    <div className="w-full flex items-start justify-between gap-2.5">
+      <div className="flex gap-x-4 h-32 relative">
+        <div className="w-[120px] h-full relative">
+          <img
+            src={product?.data?.images[0]}
+            alt="image-of-product"
+            className="w-full h-full rounded-lg shadow-md shadow-black/15 object-cover object-center"
+          />
+          {product?.data?.isOnSale && (
+            <div className="absolute top-1 left-1 p-1 bg-red-500 rounded-md flex items-center justify-center">
+              <FaTag size={16} className="text-white" />
+            </div>
+          )}
+        </div>
         <div className="h-full flex flex-col justify-between py-1">
           <span className="flex items-center gap-x-2">
-            {product?.data?.isOnSale && (
-              <div className="p-1 bg-red-500 rounded-md flex items-center justify-center">
-                <FaTag size={16} className="text-white" />
-              </div>
-            )}
             <Link
               to={`/product/${product?.data?._id}`}
-              className="text-xl font-semibold text-gray-950">
+              className="text-lg lg:text-xl max-w-sm line-clamp-1 font-semibold text-gray-950"
+            >
               {product?.data?.name}
             </Link>
           </span>
           <div className="flex flex-col gap-y-1.5">
             <Link
               to={`/profile/${user?.data?._id}`}
-              className="flex items-center gap-x-2">
+              className="flex items-center gap-x-2"
+            >
               {user?.data?.profilePic ? (
                 <img
                   src={user?.data?.profilePic}
@@ -78,7 +82,7 @@ const CartItemCard = ({ item, loggedInUserId }: CartItemCardProps) => {
                   {getInitials(user?.data?.name)}
                 </div>
               )}
-              <p className="text-base font-semibold text-gray-900">
+              <p className="text-base font-semibold text-gray-900 line-clamp-1">
                 {user?.data?.name}
               </p>
             </Link>
@@ -96,7 +100,8 @@ const CartItemCard = ({ item, loggedInUserId }: CartItemCardProps) => {
             className={cn(
               "text-xl font-semibold text-gray-950",
               product?.data?.isOnSale && "line-through opacity-80"
-            )}>
+            )}
+          >
             {formatPrice(product?.data?.price)}
           </p>
         </span>
@@ -105,7 +110,8 @@ const CartItemCard = ({ item, loggedInUserId }: CartItemCardProps) => {
             <button
               onClick={handleRemoveFromCart}
               disabled={isPending}
-              className="justify-center hover:opacity-85 transition-all disabled:opacity-60">
+              className="justify-center hover:opacity-85 transition-all disabled:opacity-60"
+            >
               {isPending ? (
                 <Loader2 className="size-4 animate-spin" />
               ) : (
@@ -121,7 +127,8 @@ const CartItemCard = ({ item, loggedInUserId }: CartItemCardProps) => {
                   setQuantity(quantity - 1);
                 }
               }}
-              className="justify-center hover:opacity-85 transition-all disabled:opacity-60">
+              className="justify-center hover:opacity-85 transition-all disabled:opacity-60"
+            >
               <Minus size={17} className="text-gray-950" />
             </button>
           )}
@@ -131,7 +138,8 @@ const CartItemCard = ({ item, loggedInUserId }: CartItemCardProps) => {
           </p>
           <button
             onClick={() => setQuantity(quantity + 1)}
-            className="justify-center hover:opacity-85 transition-all disabled:opacity-60">
+            className="justify-center hover:opacity-85 transition-all disabled:opacity-60"
+          >
             <Plus size={17} className="text-gray-950" />
           </button>
         </div>

@@ -147,7 +147,7 @@ const Navbar: React.FC = () => {
           )}
 
           {userInfo ? (
-            <UserProfileDropMenu user={user?.data} />
+            <UserProfileDropMenu user={auth?.user} />
           ) : (
             <Link
               to={"/sign-in"}
